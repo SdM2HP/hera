@@ -1,0 +1,62 @@
+# 网络
+networks:
+  # 通用网络
+  common-network:
+    # 使用桥接网络
+    driver: bridge
+
+services:
+  # MySQL
+  mysql:
+    # 使用 MySQL 8.0.39 镜像
+    image: mysql:8.0.39
+    # 容器名称
+    container_name: mysql
+    # 映射3306端口
+    ports:
+      - "3306:3306"
+    # 设置环境变量
+    environment:
+      # 设置MySQL root用户密码
+      - MYSQL_ROOT_PASSWORD=123456
+      # 允许远程访问
+      - MYSQL_ROOT_HOST=%
+    # 挂载数据和配置文件
+    volumes:
+      # 挂载日志
+      - ./mysql/logs:/var/log/mysql
+      # 挂载数据
+      - ./mysql/data:/var/lib/mysql
+      # 挂载配置文件
+      - ./mysql/conf.d:/etc/mysql/conf.d
+    # 使用通用网络
+    networks:
+      # 使用通用网络
+      - common-network
+    # 重启策略 - 自动启动
+    restart: always
+
+
+  # Redis
+  redis:
+    # 使用 Redis 7.4.5 镜像
+    image: redis:7.4.5-alpine
+    # 容器名称
+    container_name: redis
+    # 映射6379端口
+    ports:
+      - "6379:6379"
+    # 挂载数据和配置文件
+    volumes:
+      # 挂载数据
+      - ./redis/data:/data
+      # 挂载配置文件
+      - ./redis/conf/redis.conf:/usr/local/etc/redis/redis.conf
+    # 使用通用网络
+    networks:
+      # 使用通用网络
+      - common-network
+    # 重启策略 - 自动启动
+    restart: always
+    # 启动命令
+    command: redis-server /usr/local/etc/redis/redis.conf
