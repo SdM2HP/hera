@@ -1,0 +1,18 @@
+app:
+  env: dev
+server:
+  http:
+    port: 8080
+data:
+  cache:
+    sa:
+      addr: "127.0.0.1:6379"
+      password: "123456"
+      db: 0
+  database:
+    sa:
+      dsn: "root:123456@tcp(127.0.0.1:3306)/db_agent?charset=utf8mb4&parseTime=True&loc=Local"
+      max_idle_conn: 1
+      max_open_conn: 100
+      # 支持 silent, error, warn, info, 权重依次降低
+      log_level: info
