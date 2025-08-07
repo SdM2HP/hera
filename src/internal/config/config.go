@@ -9,6 +9,21 @@ import (
 
 var Conf = new(Config)
 
+func Setup(filename string) error {
+	// 读取文件
+	file, err := os.ReadFile(filename)
+	if err != nil {
+		return err
+	}
+
+	// 反序列化配置到结构体
+	if err = encoding.GetCodec(yaml.Name).Unmarshal(file, Conf); err != nil {
+		return err
+	}
+
+	return nil
+}
+
 type Config struct {
 	APP    APP    `yaml:"app"`
 	Server Server `yaml:"server"`
@@ -42,18 +57,4 @@ type Cache struct {
 	Addr     string `yaml:"addr"`
 	Password string `yaml:"password"`
 	DB       int    `yaml:"db"`
-}
-
-func (conf *Config) Setup(filename string) error {
-	file, err := os.ReadFile(filename)
-	if err != nil {
-		return err
-	}
-
-	// 反序列化配置到结构体
-	if err = encoding.GetCodec(yaml.Name).Unmarshal(file, conf); err != nil {
-		return err
-	}
-
-	return nil
 }

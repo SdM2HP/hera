@@ -7,12 +7,12 @@ import (
 	"src/plugins/command/upgrade"
 )
 
-var CmdTools = &cobra.Command{
-	Use:   "tools",
+var CmdTool = &cobra.Command{
+	Use:   "tool",
 	Short: "工具箱",
 }
 
 func init() {
-	CmdTools.AddCommand(upgrade.CmdUpgrade)
-	CmdTools.AddCommand(generate.CmdGenerate)
+	CmdTool.AddCommand(upgrade.CmdUpgrade)
+	CmdTool.AddCommand(generate.CmdGenerate)
 }

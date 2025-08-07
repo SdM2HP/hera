@@ -1,9 +1,9 @@
-package web
+package router
 
 import (
 	"github.com/gin-gonic/gin"
 
-	"src/internal/web/controller"
+	"src/internal/server/http/controller"
 )
 
 func Setup() *gin.Engine {

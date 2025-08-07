@@ -1,4 +1,4 @@
-package server
+package http
 
 import (
 	"context"
@@ -8,7 +8,7 @@ import (
 
 	basesrv "src/engine/server"
 	"src/internal/config"
-	"src/internal/web"
+	"src/internal/server/http/router"
 )
 
 type server struct {
@@ -20,15 +20,14 @@ func NewServer(cfg config.HTTP) basesrv.Server {
 
 	srv.httpsrv = &http.Server{
 		Addr:    fmt.Sprintf(":%d", cfg.Port),
-		Handler: web.Setup(),
+		Handler: router.Setup(),
 	}
 
 	return srv
 }
 
 func (srv *server) Start(ctx context.Context) error {
-	if err := srv.httpsrv.ListenAndServe(); err != nil &&
-		!errors.Is(err, http.ErrServerClosed) {
+	if err := srv.httpsrv.ListenAndServe(); err != nil && !errors.Is(err, http.ErrServerClosed) {
 		return err
 	}
 	return nil
